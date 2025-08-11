@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>RRT Guides</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Read & download RRT stamp guides. Read-only — no editing." />
+  <meta name="author" content="Mr. Surendra Anand Bhaskar" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Fallback minimal styles if CSS fails to load */
+    .no-css { display: none }
+  </style>
+  <noscript>
+    <style>
+      .read-btn { display: none }
+      .viewer { display: none }
+    </style>
+  </noscript>
+</head>
+<body>
+  <header class="site-header">
+    <h1>RRT Guides</h1>
+    <p class="policy">Read &amp; download only — editing is disabled.</p>
+  </header>
+
+  <main class="container">
+    <section class="intro">
+      <p>
+        Practical, concise references on India's Refugee Relief Tax (RRT), 1971–73. Use the search to filter by title or keywords.
+        Click <strong>Read</strong> to open a guide inline, or <strong>Download</strong> to save a copy.
+      </p>
+      <p class="byline"><strong>Author:</strong> Mr. Surendra Anand Bhaskar</p>
+      <ul class="facts">
+        <li>Read-only PDFs — no editing or accounts.</li>
+        <li>Client-side search; no tracking and no external libraries.</li>
+        <li>Mobile-friendly: viewers open below each guide card.</li>
+      </ul>
+    </section>
+    <div class="search-row">
+      <input id="search" type="search" placeholder="Search guides…" aria-label="Search guides" />
+    </div>
+
+    <section id="guides" class="guides">
+      <!-- Guide Card 1 (update file name to your actual PDF path) -->
+      <article class="card" data-title="A Comprehensive Guide for Beginners & Collectors of RRT" data-keywords="RRT, Refugee Relief Tax, India, philately, beginners, collectors">
+        <div class="card-top">
+          <h2 class="card-title">A Comprehensive Guide for Beginners &amp; Collectors of RRT</h2>
+          <p class="card-desc">Overview of Indian Refugee Relief Tax (RRT) stamps &amp; stationery, 1971–73—history, handstamps, machine overprints, and references.</p>
+          <div class="tags" aria-hidden="true">
+            <span class="tag">RRT</span>
+            <span class="tag">Beginners</span>
+            <span class="tag">Philately</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <!-- CHANGE THE HREF TO YOUR REAL FILE LOCATION -->
+          <button class="btn read-btn" data-pdf="pdfs/beginners.pdf">Read</button>
+          <a class="btn outline" href="pdfs/beginners.pdf" download>Download</a>
+        </div>
+        <div class="viewer" hidden>
+          <iframe title="PDF viewer" loading="lazy"></iframe>
+        </div>
+      </article>
+
+      <!-- Guide Card 2 (update file name to your actual PDF path) -->
+      <article class="card" data-title="A Guide for Advanced Collectors" data-keywords="RRT, advanced, provisionals, machine overprints, Bangalore, Alipore, Gwalior, Neemuch, Rewa, Bhopal">
+        <div class="card-top">
+          <h2 class="card-title">A Guide for Advanced Collectors</h2>
+          <p class="card-desc">Rarest gems of provisional machine overprints, authentication research, pricing rationale, and detailed varieties.</p>
+          <div class="tags" aria-hidden="true">
+            <span class="tag">Advanced</span>
+            <span class="tag">Overprints</span>
+            <span class="tag">Authentication</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <!-- CHANGE THE HREF TO YOUR REAL FILE LOCATION -->
+          <button class="btn read-btn" data-pdf="pdfs/advanced.pdf">Read</button>
+          <a class="btn outline" href="pdfs/advanced.pdf" download>Download</a>
+        </div>
+        <div class="viewer" hidden>
+          <iframe title="PDF viewer" loading="lazy"></iframe>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <strong>RRT Guides</strong>
+        <p class="footer-desc">Concise references on Refugee Relief Tax issues (1971–73).</p>
+      </div>
+      <nav class="footer-col">
+        <ul class="footer-links">
+          <li><a href="#guides">Guides</a></li>
+          <li><a href="mailto:surand77@yahoo.co.in">Email</a></li>
+        </ul>
+      </nav>
+    </div>
+    <small>© <span id="year"></span> RRT Guides • Contact: <a href="mailto:surand77@yahoo.co.in">surand77@yahoo.co.in</a></small>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
