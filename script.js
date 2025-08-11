@@ -16,6 +16,30 @@ search.addEventListener("input", () => {
 // “Read/Close” buttons: show one embedded viewer at a time
 let openViewer = null;
 let openButton = null;
+// Hide images if they fail to load (graceful fallback)
+document.querySelectorAll('img[data-hide-on-error="1"]').forEach(img => {
+  img.addEventListener('error', () => {
+    const header = img.closest('.header-hero');
+    const media = img.closest('.card-media');
+    if (header) {
+      header.classList.add('img-failed');
+      img.remove();
+      return;
+    }
+    if (media) {
+      media.classList.add('img-failed');
+      img.remove();
+      return;
+    }
+    // fallback: hide just the broken image
+    img.style.display = 'none';
+  });
+});
+
+// Remove Wikimedia Commons auto-fetch; images are provided locally
+document.querySelectorAll('img[data-commons-query]').forEach(img => {
+  img.removeAttribute('data-commons-query');
+});
 document.querySelectorAll(".read-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     // close previous
