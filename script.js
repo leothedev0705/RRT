@@ -1,6 +1,13 @@
 // current year
 document.getElementById("year").textContent = new Date().getFullYear();
 
+// Show mobile note on mobile devices
+if (window.innerWidth <= 768) {
+  document.querySelectorAll('.mobile-note').forEach(note => {
+    note.style.display = 'block';
+  });
+}
+
 // simple search filter by title/keywords
 const search = document.getElementById("search");
 const cards = Array.from(document.querySelectorAll(".card"));
@@ -81,7 +88,20 @@ document.querySelectorAll(".read-btn").forEach(btn => {
       viewerUrl = addFragmentParam(viewerUrl, 'view=FitH');
     }
 
-    // toggle
+    // Check if mobile and handle PDF viewing differently
+    const isMobile = window.innerWidth <= 768;
+    
+    if (isMobile) {
+      // On mobile, open PDF in new tab instead of iframe
+      btn.textContent = 'Opening PDF...';
+      setTimeout(() => {
+        btn.textContent = 'Read';
+      }, 1000);
+      window.open(pdf, '_blank');
+      return;
+    }
+    
+    // Desktop: Use iframe viewer
     if (!viewer.hidden) {
       viewer.hidden = true;
       iframe.removeAttribute("src");
