@@ -56,6 +56,8 @@ body{
 .card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.06)}
 .card-media{margin-bottom:.5rem}
 .card-media img{width:100%;height:auto;display:block;border-radius:.5rem;border:1px solid var(--border);background:var(--bg)}
+.card-media img[data-hide-on-error="1"]:not([src]){display:none}
+.card-media img[data-hide-on-error="1"]:not([src]) + *{display:block}
 .card-media.img-failed{aspect-ratio:3/2;border:1px dashed var(--border);border-radius:.5rem;background:linear-gradient(135deg, rgba(46,101,243,.12), transparent 60%), var(--card)}
 .card-media.img-failed::before{content:"Thumbnail";display:block;text-align:center;color:var(--muted);padding:2.5rem 0}
 .img-attrib{margin-top:.25rem;color:var(--muted)}

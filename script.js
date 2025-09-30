@@ -74,18 +74,24 @@ document.querySelectorAll(".read-btn").forEach(btn => {
     const addFragmentParam = (url, frag) => url.includes('#') ? `${url}&${frag}` : `${url}#${frag}`;
     let viewerUrl = pdf;
     
-    // Different settings for mobile vs desktop
-    if (window.innerWidth <= 768) {
-      // Mobile: Enable toolbar and navigation for better mobile experience
-      viewerUrl = addFragmentParam(viewerUrl, 'toolbar=1');
-      viewerUrl = addFragmentParam(viewerUrl, 'navpanes=1');
-      viewerUrl = addFragmentParam(viewerUrl, 'scrollbar=1');
-      viewerUrl = addFragmentParam(viewerUrl, 'view=FitH');
+    // Try using PDF.js viewer for better compatibility with GitHub URLs
+    if (pdf.includes('githubusercontent.com')) {
+      // Use PDF.js viewer for GitHub URLs
+      viewerUrl = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(pdf)}`;
     } else {
-      // Desktop: Cleaner view
-      viewerUrl = addFragmentParam(viewerUrl, 'toolbar=0');
-      viewerUrl = addFragmentParam(viewerUrl, 'navpanes=0');
-      viewerUrl = addFragmentParam(viewerUrl, 'view=FitH');
+      // For local files, use direct URL with fragment parameters
+      if (window.innerWidth <= 768) {
+        // Mobile: Enable toolbar and navigation for better mobile experience
+        viewerUrl = addFragmentParam(viewerUrl, 'toolbar=1');
+        viewerUrl = addFragmentParam(viewerUrl, 'navpanes=1');
+        viewerUrl = addFragmentParam(viewerUrl, 'scrollbar=1');
+        viewerUrl = addFragmentParam(viewerUrl, 'view=FitH');
+      } else {
+        // Desktop: Cleaner view
+        viewerUrl = addFragmentParam(viewerUrl, 'toolbar=0');
+        viewerUrl = addFragmentParam(viewerUrl, 'navpanes=0');
+        viewerUrl = addFragmentParam(viewerUrl, 'view=FitH');
+      }
     }
 
     // Check if mobile and handle PDF viewing differently
@@ -122,6 +128,9 @@ document.querySelectorAll(".read-btn").forEach(btn => {
     }
     
     // Desktop: Use iframe viewer
+    console.log('Loading PDF:', pdf);
+    console.log('Viewer URL:', viewerUrl);
+    
     if (!viewer.hidden) {
       viewer.hidden = true;
       iframe.removeAttribute("src");
@@ -140,6 +149,17 @@ document.querySelectorAll(".read-btn").forEach(btn => {
       btn.textContent = 'Close';
       btn.setAttribute('aria-expanded', 'true');
       openButton = btn;
+      
+      // Add error handling for iframe
+      iframe.onerror = function() {
+        console.error('Failed to load PDF:', pdf);
+        alert('Failed to load PDF. Please try downloading instead.');
+      };
+      
+      iframe.onload = function() {
+        console.log('PDF loaded successfully');
+      };
+      
       // scroll into view (nice on mobile)
       viewer.scrollIntoView({ behavior: "smooth", block: "start" });
     }
