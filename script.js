@@ -90,14 +90,34 @@ document.querySelectorAll(".read-btn").forEach(btn => {
 
     // Check if mobile and handle PDF viewing differently
     const isMobile = window.innerWidth <= 768;
+    console.log('Screen width:', window.innerWidth, 'Is mobile:', isMobile);
     
     if (isMobile) {
       // On mobile, open PDF in new tab instead of iframe
       btn.textContent = 'Opening PDF...';
+      
+      // Try multiple approaches for mobile PDF opening
+      try {
+        // Method 1: Direct window.open
+        const newWindow = window.open(pdf, '_blank');
+        if (!newWindow) {
+          // Method 2: Create temporary link and click it
+          const link = document.createElement('a');
+          link.href = pdf;
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+      } catch (error) {
+        // Method 3: Fallback to direct navigation
+        window.location.href = pdf;
+      }
+      
       setTimeout(() => {
         btn.textContent = 'Read';
-      }, 1000);
-      window.open(pdf, '_blank');
+      }, 1500);
       return;
     }
     
