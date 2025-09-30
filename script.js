@@ -1,13 +1,6 @@
 // current year
 document.getElementById("year").textContent = new Date().getFullYear();
 
-// Show mobile note on mobile devices
-if (window.innerWidth <= 768) {
-  document.querySelectorAll('.mobile-note').forEach(note => {
-    note.style.display = 'block';
-  });
-}
-
 // simple search filter by title/keywords
 const search = document.getElementById("search");
 const cards = Array.from(document.querySelectorAll(".card"));
@@ -70,67 +63,14 @@ document.querySelectorAll(".read-btn").forEach(btn => {
     const iframe = viewer.querySelector("iframe");
     const pdf = btn.getAttribute("data-pdf") || "";
 
-    // Mobile-optimized PDF viewing
+    // Attempt to suppress native toolbar/annotations in some viewers via fragment params (best effort, not guaranteed across browsers)
     const addFragmentParam = (url, frag) => url.includes('#') ? `${url}&${frag}` : `${url}#${frag}`;
     let viewerUrl = pdf;
-    
-    // Try using PDF.js viewer for better compatibility with GitHub URLs
-    if (pdf.includes('githubusercontent.com')) {
-      // Use PDF.js viewer for GitHub URLs
-      viewerUrl = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(pdf)}`;
-    } else {
-      // For local files, use direct URL with fragment parameters
-      if (window.innerWidth <= 768) {
-        // Mobile: Enable toolbar and navigation for better mobile experience
-        viewerUrl = addFragmentParam(viewerUrl, 'toolbar=1');
-        viewerUrl = addFragmentParam(viewerUrl, 'navpanes=1');
-        viewerUrl = addFragmentParam(viewerUrl, 'scrollbar=1');
-        viewerUrl = addFragmentParam(viewerUrl, 'view=FitH');
-      } else {
-        // Desktop: Cleaner view
-        viewerUrl = addFragmentParam(viewerUrl, 'toolbar=0');
-        viewerUrl = addFragmentParam(viewerUrl, 'navpanes=0');
-        viewerUrl = addFragmentParam(viewerUrl, 'view=FitH');
-      }
-    }
+    viewerUrl = addFragmentParam(viewerUrl, 'toolbar=0');
+    viewerUrl = addFragmentParam(viewerUrl, 'navpanes=0');
+    viewerUrl = addFragmentParam(viewerUrl, 'view=FitH');
 
-    // Check if mobile and handle PDF viewing differently
-    const isMobile = window.innerWidth <= 768;
-    console.log('Screen width:', window.innerWidth, 'Is mobile:', isMobile);
-    
-    if (isMobile) {
-      // On mobile, open PDF in new tab instead of iframe
-      btn.textContent = 'Opening PDF...';
-      
-      // Try multiple approaches for mobile PDF opening
-      try {
-        // Method 1: Direct window.open
-        const newWindow = window.open(pdf, '_blank');
-        if (!newWindow) {
-          // Method 2: Create temporary link and click it
-          const link = document.createElement('a');
-          link.href = pdf;
-          link.target = '_blank';
-          link.rel = 'noopener noreferrer';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        }
-      } catch (error) {
-        // Method 3: Fallback to direct navigation
-        window.location.href = pdf;
-      }
-      
-      setTimeout(() => {
-        btn.textContent = 'Read';
-      }, 1500);
-      return;
-    }
-    
-    // Desktop: Use iframe viewer
-    console.log('Loading PDF:', pdf);
-    console.log('Viewer URL:', viewerUrl);
-    
+    // toggle
     if (!viewer.hidden) {
       viewer.hidden = true;
       iframe.removeAttribute("src");
@@ -149,17 +89,6 @@ document.querySelectorAll(".read-btn").forEach(btn => {
       btn.textContent = 'Close';
       btn.setAttribute('aria-expanded', 'true');
       openButton = btn;
-      
-      // Add error handling for iframe
-      iframe.onerror = function() {
-        console.error('Failed to load PDF:', pdf);
-        alert('Failed to load PDF. Please try downloading instead.');
-      };
-      
-      iframe.onload = function() {
-        console.log('PDF loaded successfully');
-      };
-      
       // scroll into view (nice on mobile)
       viewer.scrollIntoView({ behavior: "smooth", block: "start" });
     }
