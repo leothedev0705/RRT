@@ -63,12 +63,23 @@ document.querySelectorAll(".read-btn").forEach(btn => {
     const iframe = viewer.querySelector("iframe");
     const pdf = btn.getAttribute("data-pdf") || "";
 
-    // Attempt to suppress native toolbar/annotations in some viewers via fragment params (best effort, not guaranteed across browsers)
+    // Mobile-optimized PDF viewing
     const addFragmentParam = (url, frag) => url.includes('#') ? `${url}&${frag}` : `${url}#${frag}`;
     let viewerUrl = pdf;
-    viewerUrl = addFragmentParam(viewerUrl, 'toolbar=0');
-    viewerUrl = addFragmentParam(viewerUrl, 'navpanes=0');
-    viewerUrl = addFragmentParam(viewerUrl, 'view=FitH');
+    
+    // Different settings for mobile vs desktop
+    if (window.innerWidth <= 768) {
+      // Mobile: Enable toolbar and navigation for better mobile experience
+      viewerUrl = addFragmentParam(viewerUrl, 'toolbar=1');
+      viewerUrl = addFragmentParam(viewerUrl, 'navpanes=1');
+      viewerUrl = addFragmentParam(viewerUrl, 'scrollbar=1');
+      viewerUrl = addFragmentParam(viewerUrl, 'view=FitH');
+    } else {
+      // Desktop: Cleaner view
+      viewerUrl = addFragmentParam(viewerUrl, 'toolbar=0');
+      viewerUrl = addFragmentParam(viewerUrl, 'navpanes=0');
+      viewerUrl = addFragmentParam(viewerUrl, 'view=FitH');
+    }
 
     // toggle
     if (!viewer.hidden) {
