@@ -63,8 +63,8 @@ document.querySelectorAll(".read-btn").forEach(btn => {
     const iframe = viewer.querySelector("iframe");
     const pdf = btn.getAttribute("data-pdf") || "";
 
-    // Use PDF.js for better PDF viewing experience
-    const pdfJsUrl = 'https://mozilla.github.io/pdf.js/web/viewer.html';
+    // Use locally hosted PDF.js
+    const pdfJsUrl = '/pdfjs/web/viewer.html';
     const encodedPdfUrl = encodeURIComponent(window.location.origin + '/' + pdf);
     const viewerUrl = `${pdfJsUrl}?file=${encodedPdfUrl}`;
 
