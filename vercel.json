@@ -9,7 +9,7 @@
         { "key": "X-Frame-Options", "value": "ALLOWALL" },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; img-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; frame-src 'self'; worker-src 'self' blob:; connect-src 'self' blob:; object-src 'none';"
+          "value": "default-src 'self'; img-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; frame-src 'self' https://mozilla.github.io; worker-src 'self' blob:; connect-src 'self' blob: https://mozilla.github.io; object-src 'none';"
         }
       ]
     },
