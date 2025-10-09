@@ -32,8 +32,81 @@ See https://github.com/adobe-type-tools/cmap-resources
 <script src="../build/pdf.js"></script>
 
     <link rel="stylesheet" href="viewer.css">
+    
+    <!-- Disable all editing and annotation features -->
+    <style>
+      /* Hide all editor/annotation toolbar buttons */
+      #editorModeButtons,
+      #editorFreeText,
+      #editorInk,
+      #editorStamp,
+      #editorModeSeparator,
+      #editorFreeTextParamsToolbar,
+      #editorInkParamsToolbar,
+      #editorStampParamsToolbar,
+      .editorParamsToolbar,
+      .editorParamsSetter,
+      .editorParamsLabel,
+      .editorParamsColor,
+      .editorParamsSlider,
+      #editorStampAddImage,
+      #altTextDialog,
+      #overallDescription,
+      #dialogLabel,
+      #dialogDescription,
+      .radioButton,
+      .radioLabel,
+      .descriptionArea,
+      #descriptionTextarea,
+      #decorativeButton,
+      #decorativeLabel,
+      #buttons,
+      #altTextCancel,
+      #altTextSave {
+        display: none !important;
+      }
+      
+      /* Hide annotation-related cursor tools */
+      #cursorToolButtons .secondaryToolbarButton[title*="annotation"],
+      #cursorToolButtons .secondaryToolbarButton[title*="Editor"],
+      #cursorToolButtons .secondaryToolbarButton[title*="Ink"],
+      #cursorToolButtons .secondaryToolbarButton[title*="Text"] {
+        display: none !important;
+      }
+    </style>
 
   <script src="viewer.js"></script>
+  
+  <!-- Disable annotation functionality -->
+  <script>
+    // Override PDF.js to disable all annotation features
+    document.addEventListener('DOMContentLoaded', function() {
+      // Disable annotation tools
+      if (window.PDFViewerApplication) {
+        window.PDFViewerApplication.initializedPromise.then(function() {
+          // Disable annotation editor
+          if (window.PDFViewerApplication.pdfViewer && window.PDFViewerApplication.pdfViewer.annotationEditor) {
+            window.PDFViewerApplication.pdfViewer.annotationEditor = null;
+          }
+          
+          // Disable annotation layer
+          if (window.PDFViewerApplication.pdfViewer && window.PDFViewerApplication.pdfViewer.annotationLayer) {
+            window.PDFViewerApplication.pdfViewer.annotationLayer = null;
+          }
+        });
+      }
+      
+      // Remove editor mode buttons from DOM
+      setTimeout(function() {
+        const editorButtons = document.querySelectorAll('#editorModeButtons, #editorFreeText, #editorInk, #editorStamp');
+        editorButtons.forEach(button => {
+          if (button && button.parentNode) {
+            button.parentNode.removeChild(button);
+          }
+        });
+      }, 1000);
+    });
+  </script>
   </head>
 
   <body tabindex="1">
